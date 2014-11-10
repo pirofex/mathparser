@@ -9,9 +9,9 @@ This parser can perform all basic arithmetic operations. In addition it supports
 #### Functions
 
 - **sin(x)**
-  - Calculates the sinus.
+  > Calculates the sinus.
 - **cos(x)**
-  - Calculates the cosinus.
+  > Calculates the cosinus.
 - **tan(x)**
   - Calculates the tangens.
 - **sqrt(x)**
