@@ -8,25 +8,25 @@ This parser can perform all basic arithmetic operations. In addition it supports
 
 #### Functions
 
-- sin(x)
+- **sin(x)**
   - Calculates the sinus.
-- cos(x)
+- **cos(x)**
   - Calculates the cosinus.
-- tan(x)
+- **tan(x)**
   - Calculates the tangens.
-- sqrt(x)
+- **sqrt(x)**
   - Calculates the square root.
-- pow(x, y)
+- **pow(x, y)**
   - Calculates x cubed y.
-- log(x)
+- **log(x)**
   - Calculates the natural logarithm.
-- ceil(x)
+- **ceil(x)**
   - Rounds x upward, returning the smallest integral value that is not less than x.
-- floor(x)
+- **floor(x)**
   - Rounds x downward, returning the largest integral value that is not greater than x.
-- digsum(x)
+- **digsum(x)**
   - Calculates the digitsum.
 
 #### Constants
-- e
-- pi
+- **e**
+- **pi**
