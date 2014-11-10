@@ -9,23 +9,23 @@ This parser can perform all basic arithmetic operations. In addition it supports
 #### Functions
 
 - sin(x)
-    Calculates the sinus.
+  - Calculates the sinus.
 - cos(x)
-    Calculates the cosinus.
+  - Calculates the cosinus.
 - tan(x)
-    Calculates the tangens.
+  - Calculates the tangens.
 - sqrt(x)
-    Calculates the square root.
+  - Calculates the square root.
 - pow(x, y)
-    Calculates x cubed y.
+  - Calculates x cubed y.
 - log(x)
-    Calculates the natural logarithm.
+  - Calculates the natural logarithm.
 - ceil(x)
-    Rounds x upward, returning the smallest integral value that is not less than x.
+  - Rounds x upward, returning the smallest integral value that is not less than x.
 - floor(x)
-    Rounds x downward, returning the largest integral value that is not greater than x.
+  - Rounds x downward, returning the largest integral value that is not greater than x.
 - digsum(x)
-    Calculates the digitsum.
+  - Calculates the digitsum.
 
 #### Constants
 - e
