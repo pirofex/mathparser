@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="includes">
+      <UniqueIdentifier>{7fed013e-f8b9-40b1-991c-593c6db151f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{a92d4850-eb22-496c-9e41-5ccc51157db7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="includes\math.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Nodes.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Parser.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ParserException.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Scanner.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Token.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\math.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Nodes.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Parser.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParserException.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scanner.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Token.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+</Project>
