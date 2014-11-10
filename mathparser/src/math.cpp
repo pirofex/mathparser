@@ -1,12 +1,12 @@
 #include "../includes/math.h"
 
-math::number math::digitsum(int number)
+math::number math::digitsum(math::number number)
 {
-	int result = 0;
+	math::number result = 0;
 
 	while (number > 0)
 	{
-		result += number % 10;
+		result += static_cast<long long>(number) % 10;
 		number /= 10;
 	}
 

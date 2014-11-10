@@ -3,5 +3,5 @@
 namespace math
 {
 	typedef long double number;
-	number digitsum(int);
+	number digitsum(number);
 }
