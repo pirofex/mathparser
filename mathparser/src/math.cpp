@@ -1,10 +1,6 @@
 #include "../includes/math.h"
 
-<<<<<<< HEAD
-math::number math::digitsum(number number)
-=======
 math::number math::digitsum(math::number number)
->>>>>>> origin/master
 {
 	math::number result = 0;
 

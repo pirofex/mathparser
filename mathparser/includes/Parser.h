@@ -5,8 +5,6 @@
 #include "Scanner.h"
 #include "ParserException.h"
 
-typedef ParserException::error_code error_code;
-
 class Parser
 {
 public:

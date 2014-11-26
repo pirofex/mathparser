@@ -19,6 +19,8 @@ typedef std::unique_ptr<NodeFunc, std::default_delete<NodeFunc>> NodeFuncPtr;
 using math::number;
 using math::digitsum;
 
+typedef ParserException::error_code error_code;
+
 class Node
 {
 public:
