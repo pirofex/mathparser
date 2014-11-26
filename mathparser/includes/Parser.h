@@ -11,17 +11,17 @@ class Parser
 {
 public:
 	Parser(const std::string& input);
-	Node *parse();
+	NodePtr parse();
 
 private:
 	void nextToken();
 	std::string text();
-	Node *start();
-	Node *number();
-	Node *multiplication();
-	Node *bracket();
-	NodeIdent *identifier();
-	NodeFunc *function(NodeIdent *);
+	NodePtr start();
+	NodePtr number();
+	NodePtr multiplication();
+	NodePtr bracket();
+	NodeIdentPtr identifier();
+	NodeFuncPtr function(NodeIdentPtr);
 
 private:
 	Token token;

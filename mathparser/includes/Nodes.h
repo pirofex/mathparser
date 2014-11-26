@@ -1,23 +1,28 @@
 #pragma once
 
 #include <cmath>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "math.h"
 #include "ParserException.h"
 
+class Node;
+class NodeIdent;
+class NodeFunc;
+
 typedef ParserException::error_code error_code;
-using namespace math;
+typedef std::unique_ptr<Node, std::default_delete<Node>> NodePtr;
+typedef std::unique_ptr<NodeIdent, std::default_delete<NodeIdent>> NodeIdentPtr;
+typedef std::unique_ptr<NodeFunc, std::default_delete<NodeFunc>> NodeFuncPtr;
+
+using math::number;
+using math::digitsum;
 
 class Node
 {
 public:
-	Node() = default;
-	Node& operator=(const Node&) = delete;
-	Node(const Node&) = delete;
-
-	virtual ~Node() = default;
 	virtual number eval() const = 0;
 };
 
@@ -45,53 +50,51 @@ private:
 class NodeFunc : public Node
 {
 public:
-	NodeFunc(NodeIdent*);
-	~NodeFunc() override;
+	NodeFunc(NodeIdentPtr);
 
-	void addArgument(Node*);
+	void addArgument(NodePtr);
 	number eval() const override;
 
 private:
-	NodeIdent *identifier;
-	std::vector<Node*> arguments;
+	NodeIdentPtr identifier;
+	std::vector<NodePtr> arguments;
 };
 
 class NodeTerm : public Node
 {
 public:
-	NodeTerm(Node *left, Node *right);
-	~NodeTerm() override;
+	NodeTerm(NodePtr, NodePtr);
 	virtual number eval() const = 0;
 
 protected:
-	Node *right;
-	Node *left;
+	NodePtr right;
+	NodePtr left;
 };
 
 class NodeAdd : public NodeTerm
 {
 public:
-	NodeAdd(Node *left, Node *right);
+	NodeAdd(NodePtr, NodePtr);
 	number eval() const override;
 };
 
 class NodeSub : public NodeTerm
 {
 public:
-	NodeSub(Node *left, Node *right);
+	NodeSub(NodePtr, NodePtr);
 	number eval() const override;
 };
 
 class NodeMul : public NodeTerm
 {
 public:
-	NodeMul(Node *left, Node *right);
+	NodeMul(NodePtr, NodePtr);
 	number eval() const override;
 };
 
 class NodeDiv : public NodeTerm
 {
 public:
-	NodeDiv(Node *left, Node *right);
+	NodeDiv(NodePtr, NodePtr);
 	number eval() const override;
 };

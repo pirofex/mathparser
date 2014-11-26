@@ -11,17 +11,21 @@ void Parser::nextToken()
 	token = scanner.nextToken();
 }
 
-Node *Parser::parse()
+NodePtr Parser::parse()
 {
 	auto result = start();
 
 	if (token.type() == token_type::end)
+	{
 		return result;
+	}
 	else
+	{
 		throw ParserException(error_code::unexpected_token);
+	}
 }
 
-Node *Parser::start()
+NodePtr Parser::start()
 {
 	auto result = multiplication();
 
@@ -29,8 +33,8 @@ Node *Parser::start()
 	{
 		switch (token.type())
 		{
-			case token_type::minus: nextToken(); result = new NodeSub(result, multiplication()); break;
-			case token_type::plus:	nextToken(); result = new NodeAdd(result, multiplication());
+			case token_type::minus: nextToken(); return std::make_unique<NodeSub>(std::move(result), multiplication());
+			case token_type::plus:	nextToken(); return std::make_unique<NodeAdd>(std::move(result), multiplication());
 		}
 	}
 
@@ -50,7 +54,7 @@ std::string Parser::text()
 	return buf;
 }
 
-Node *Parser::number()
+NodePtr Parser::number()
 {
 	std::string buf = "";
 
@@ -67,10 +71,10 @@ Node *Parser::number()
 		throw ParserException(error_code::operand_expected);
 	}
 
-	return new NodeNumber(number);
+	return std::make_unique<NodeNumber>(number);
 }
 
-Node *Parser::multiplication()
+NodePtr Parser::multiplication()
 {
 	auto result = bracket();
 
@@ -78,17 +82,16 @@ Node *Parser::multiplication()
 	{
 		switch (token.type())
 		{
-			case token_type::division:		 nextToken(); result = new NodeDiv(result, bracket()); break;
-			case token_type::multiplication: nextToken(); result = new NodeMul(result, bracket());	
+			case token_type::division:		 nextToken(); return std::make_unique<NodeDiv>(std::move(result), bracket());
+			case token_type::multiplication: nextToken(); return std::make_unique<NodeMul>(std::move(result), bracket());
 		}
 	}
 
 	return result;
 }
 
-Node *Parser::bracket()
+NodePtr Parser::bracket()
 {
-	// positive sign
 	math::number sign = 1;
 
 	if (token.type() == token_type::plus)
@@ -105,12 +108,12 @@ Node *Parser::bracket()
 	{
 		nextToken();
 
-		auto node = new NodeMul(new NodeNumber(sign), start());
+		auto node = std::make_unique<NodeMul>(std::make_unique<NodeNumber>(sign), start());
 
 		if (token.type() == token_type::right_parenthesis)
 		{
 			nextToken();
-			return node;
+			return std::move(node);
 		}
 		else
 		{
@@ -123,25 +126,25 @@ Node *Parser::bracket()
 
 		if (token.type() == token_type::left_parenthesis)
 		{
-			return function(ident);
+			return function(std::move(ident));
 		}
 		else
 		{
-			return ident;
+			return std::move(ident);
 		}
 	}
 	
-	return new NodeMul(new NodeNumber(sign), number());
+	return std::make_unique<NodeMul>(std::make_unique<NodeNumber>(sign), number());
 }
 
-NodeIdent *Parser::identifier()
+NodeIdentPtr Parser::identifier()
 {
-	return new NodeIdent(text());
+	return std::make_unique<NodeIdent>(text());
 }
 
-NodeFunc *Parser::function(NodeIdent *ident)
+NodeFuncPtr Parser::function(NodeIdentPtr ident)
 {
-	auto func = new NodeFunc(ident);
+	auto func = std::make_unique<NodeFunc>(std::move(ident));
 
 	if (token.type() != token_type::right_parenthesis)
 	{

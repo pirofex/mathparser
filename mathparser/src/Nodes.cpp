@@ -8,44 +8,38 @@ number NodeNumber::eval() const
 	return value;
 }
 
-NodeTerm::NodeTerm(Node *left, Node *right) 
-	: left(left), right(right) {}
-
-NodeTerm::~NodeTerm()
+NodeTerm::NodeTerm(NodePtr left, NodePtr right)
 {
-	if (right != nullptr)
-		delete right;
-
-	if (left != nullptr)
-		delete left;
+	this->right = std::move(right);
+	this->left = std::move(left);
 }
 
-NodeAdd::NodeAdd(Node *left, Node *right) 
-	: NodeTerm(left, right) {}
+NodeAdd::NodeAdd(NodePtr left, NodePtr right) 
+	: NodeTerm(std::move(left), std::move(right)) {}
 
 number NodeAdd::eval() const
 {
 	return left->eval() + right->eval();
 }
 
-NodeSub::NodeSub(Node *left, Node *right) 
-	: NodeTerm(left, right) {}
+NodeSub::NodeSub(NodePtr left, NodePtr right) 
+	: NodeTerm(std::move(left), std::move(right)) {}
 
 number NodeSub::eval() const
 {
 	return left->eval() - right->eval();
 }
 
-NodeMul::NodeMul(Node *left, Node *right) 
-	: NodeTerm(left, right) {}
+NodeMul::NodeMul(NodePtr left, NodePtr right) 
+	: NodeTerm(std::move(left), std::move(right)) {}
 
 number NodeMul::eval() const
 {
 	return left->eval() * right->eval();
 }
 
-NodeDiv::NodeDiv(Node *left, Node *right) 
-	: NodeTerm(left, right) {}
+NodeDiv::NodeDiv(NodePtr left, NodePtr right) 
+	: NodeTerm(std::move(left), std::move(right)) {}
 
 number NodeDiv::eval() const
 {
@@ -76,22 +70,14 @@ std::string NodeIdent::getName() const
 	return identifier;
 }
 
-NodeFunc::NodeFunc(NodeIdent *ident) 
-	: identifier(ident) {}
-
-void NodeFunc::addArgument(Node *node)
+NodeFunc::NodeFunc(NodeIdentPtr ident) 
 {
-	arguments.push_back(node);
+	identifier = std::move(ident);
 }
 
-NodeFunc::~NodeFunc()
+void NodeFunc::addArgument(NodePtr node)
 {
-	delete identifier;
-
-	for (auto const &it : arguments)
-	{
-		delete it;
-	}
+	arguments.push_back(std::move(node));
 }
 
 number NodeFunc::eval() const
