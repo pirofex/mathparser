@@ -12,7 +12,6 @@ class Node;
 class NodeIdent;
 class NodeFunc;
 
-typedef ParserException::error_code error_code;
 typedef std::unique_ptr<Node, std::default_delete<Node>> NodePtr;
 typedef std::unique_ptr<NodeIdent, std::default_delete<NodeIdent>> NodeIdentPtr;
 typedef std::unique_ptr<NodeFunc, std::default_delete<NodeFunc>> NodeFuncPtr;
