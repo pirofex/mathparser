@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Nodes.h"
-#include "Token.h"
 #include "Scanner.h"
 #include "ParserException.h"
+
+#include <iostream>
 
 class Parser
 {

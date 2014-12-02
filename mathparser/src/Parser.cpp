@@ -33,8 +33,8 @@ NodePtr Parser::start()
 	{
 		switch (token.type())
 		{
-			case token_type::minus: nextToken(); return std::make_unique<NodeSub>(std::move(result), multiplication());
-			case token_type::plus:	nextToken(); return std::make_unique<NodeAdd>(std::move(result), multiplication());
+			case token_type::minus: nextToken(); result = std::make_unique<NodeSub>(std::move(result), multiplication()); break;
+			case token_type::plus:	nextToken(); result =  std::make_unique<NodeAdd>(std::move(result), multiplication());
 		}
 	}
 
@@ -82,8 +82,8 @@ NodePtr Parser::multiplication()
 	{
 		switch (token.type())
 		{
-			case token_type::division:		 nextToken(); return std::make_unique<NodeDiv>(std::move(result), bracket());
-			case token_type::multiplication: nextToken(); return std::make_unique<NodeMul>(std::move(result), bracket());
+			case token_type::division:		 nextToken(); result = std::make_unique<NodeDiv>(std::move(result), bracket()); break;
+			case token_type::multiplication: nextToken(); result = std::make_unique<NodeMul>(std::move(result), bracket());
 		}
 	}
 
