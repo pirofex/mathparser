@@ -36,6 +36,10 @@ int main()
 					system("clear");
 				#endif
 			}
+			else if (input == "/maxval")
+			{
+				std::cout << "-> " << std::numeric_limits<number>::max() << "\n\n";
+			}
 			
 			continue;
 		}
