@@ -21,10 +21,12 @@ enum class token_type
 class Token
 {
 public:
-	Token(token_type t, const std::string& value);
+	Token() = default;
+	Token(token_type);
+	Token(token_type, const std::string& value);
 
-	token_type type() const;
-	std::string value() const;
+	token_type type() const noexcept;
+	const std::string& value() const noexcept;
 
 private:
 	token_type token_type;

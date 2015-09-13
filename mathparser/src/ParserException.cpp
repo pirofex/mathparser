@@ -16,11 +16,11 @@ const char *ParserException::what() const
 		case error_code::operand_expected:	return "Operand expected.";
 		case error_code::function_expected:	return "Function expected.";
 		case error_code::constant_expected:	return "Valid constant expected.";
-		default:							return "An unknown Parser error occurred.";
+		default:							return "An unknown parser error occurred.";
 	}
 }
 
-ParserException::error_code ParserException::getErrorcode() const
+ParserException::error_code ParserException::getErrorcode() const noexcept
 {
 	return code;
 }

@@ -2,6 +2,6 @@
 
 namespace math
 {
-	typedef long double number;
+	using number = long double;
 	number digitsum(number);
 }

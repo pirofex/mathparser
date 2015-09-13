@@ -1,14 +1,18 @@
 #include "../includes/math.h"
 
-math::number math::digitsum(math::number number)
-{
-	math::number result = 0;
+namespace math {
 
-	while (number > 0)
+number digitsum(number value)
+{
+	number result = 0;
+
+	while (value)
 	{
-		result += static_cast<long long>(number) % 10;
-		number /= 10;
+		result += static_cast<long long>(value) % 10;
+		value /= 10;
 	}
 
 	return result;
 }
+
+} // namespace math

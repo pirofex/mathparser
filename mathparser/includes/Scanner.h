@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <cctype>
 #include <locale>
 #include <string>
@@ -17,9 +18,8 @@ private:
 	void nextChar();
 	void skipCharacters();
 
-	char last_read;
 	std::string input;
-	std::size_t pos;
-	std::string skip_chars;
+	std::size_t pos = 0;
+	char last_read = '\0';
+	std::string skip_chars = "\n\r\t ";
 };
-

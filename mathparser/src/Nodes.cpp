@@ -9,9 +9,8 @@ number NodeNumber::eval() const
 }
 
 NodeTerm::NodeTerm(NodePtr left, NodePtr right)
+	: right(std::move(right)), left(std::move(left))
 {
-	this->right = std::move(right);
-	this->left = std::move(left);
 }
 
 NodeAdd::NodeAdd(NodePtr left, NodePtr right) 
@@ -59,13 +58,11 @@ number NodeIdent::eval() const
 	{
 		return 2.71828183;
 	}
-	else
-	{
-		throw ParserException(error_code::constant_expected);
-	}
+
+	throw ParserException(error_code::constant_expected);
 }
 
-std::string NodeIdent::getName() const
+const std::string& NodeIdent::getName() const noexcept
 {
 	return identifier;
 }
@@ -77,7 +74,7 @@ NodeFunc::NodeFunc(NodeIdentPtr ident)
 
 void NodeFunc::addArgument(NodePtr node)
 {
-	arguments.push_back(std::move(node));
+	arguments.emplace_back(std::move(node));
 }
 
 number NodeFunc::eval() const

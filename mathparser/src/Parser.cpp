@@ -1,7 +1,7 @@
 #include "../includes/Parser.h"
 
 Parser::Parser(const std::string& input) 
-	: token(token_type::nil, ""), scanner(input)
+	: scanner(input)
 {
 	nextToken();
 }
@@ -19,10 +19,8 @@ NodePtr Parser::parse()
 	{
 		return result;
 	}
-	else
-	{
-		throw ParserException(error_code::unexpected_token);
-	}
+
+	throw ParserException(error_code::unexpected_token);
 }
 
 NodePtr Parser::start()
@@ -56,7 +54,7 @@ std::string Parser::text()
 
 NodePtr Parser::number()
 {
-	std::string buf = "";
+	std::string buf;
 
 	while (token.type() == token_type::digit || (token.type() == token_type::dot && !buf.empty() && std::string { buf.back() } != token.value()))
 	{

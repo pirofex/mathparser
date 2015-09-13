@@ -12,14 +12,14 @@ class Node;
 class NodeIdent;
 class NodeFunc;
 
-typedef std::unique_ptr<Node, std::default_delete<Node>> NodePtr;
-typedef std::unique_ptr<NodeIdent, std::default_delete<NodeIdent>> NodeIdentPtr;
-typedef std::unique_ptr<NodeFunc, std::default_delete<NodeFunc>> NodeFuncPtr;
+using NodePtr = std::unique_ptr<Node>;
+using NodeIdentPtr = std::unique_ptr<NodeIdent>;
+using NodeFuncPtr = std::unique_ptr<NodeFunc>;
 
 using math::number;
 using math::digitsum;
 
-typedef ParserException::error_code error_code;
+using error_code = ParserException::error_code;
 
 class Node
 {
@@ -42,7 +42,7 @@ class NodeIdent : public Node
 public:
 	NodeIdent(const std::string&);
 	number eval() const override;
-	std::string getName() const;
+	const std::string& getName() const noexcept;
 
 private:
 	std::string identifier;
@@ -54,7 +54,7 @@ public:
 	NodeFunc(NodeIdentPtr);
 
 	void addArgument(NodePtr);
-	number eval() const override;
+	number eval() const override final;
 
 private:
 	NodeIdentPtr identifier;
@@ -76,26 +76,26 @@ class NodeAdd : public NodeTerm
 {
 public:
 	NodeAdd(NodePtr, NodePtr);
-	number eval() const override;
+	number eval() const override final;
 };
 
 class NodeSub : public NodeTerm
 {
 public:
 	NodeSub(NodePtr, NodePtr);
-	number eval() const override;
+	number eval() const override final;
 };
 
 class NodeMul : public NodeTerm
 {
 public:
 	NodeMul(NodePtr, NodePtr);
-	number eval() const override;
+	number eval() const override final;
 };
 
 class NodeDiv : public NodeTerm
 {
 public:
 	NodeDiv(NodePtr, NodePtr);
-	number eval() const override;
+	number eval() const override final;
 };

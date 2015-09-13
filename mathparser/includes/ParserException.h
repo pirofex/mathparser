@@ -18,7 +18,7 @@ public:
 
 	ParserException(error_code);
 	const char *what() const override;
-	error_code getErrorcode() const;
+	error_code getErrorcode() const noexcept;
 
 private:
 	error_code code;
