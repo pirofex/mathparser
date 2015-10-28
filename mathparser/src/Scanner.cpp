@@ -26,7 +26,7 @@ Token Scanner::nextToken()
 	
 	switch (last_read)
 	{
-		case '.': nextChar();	return Token(token_type::dot);
+		case '.': nextChar();	return Token(token_type::dot, ".");
 		case '(': nextChar();	return Token(token_type::left_parenthesis);
 		case ')': nextChar();	return Token(token_type::right_parenthesis);
 		case '-': nextChar();	return Token(token_type::minus);
