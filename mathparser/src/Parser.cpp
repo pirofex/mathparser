@@ -13,6 +13,16 @@ void Parser::nextToken()
 
 NodePtr Parser::parse()
 {
+	/**
+	 *  start = (multiplication) { ("+" | "-") (multiplication) };
+	 *	multiplication = (bracket) { ("*" | "/") (bracket) };
+	 *	bracket = ["+" | "-"]((function) | (text) | (number) | "(" (start) ")");
+	 *	function = (text) '('[(start) { ',' (start) }] ')';
+	 *	text = (('a' - 'Z')) { ('a' - 'Z') };
+	 *	number = (digit)['.']{ (digit) };
+	 *	digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+	*/
+
 	auto result = start();
 
 	if (token.type() == token_type::end)
@@ -32,7 +42,7 @@ NodePtr Parser::start()
 		switch (token.type())
 		{
 			case token_type::minus: nextToken(); result = std::make_unique<NodeSub>(std::move(result), multiplication()); break;
-			case token_type::plus:	nextToken(); result =  std::make_unique<NodeAdd>(std::move(result), multiplication());
+			case token_type::plus:	nextToken(); result = std::make_unique<NodeAdd>(std::move(result), multiplication());
 		}
 	}
 
@@ -56,18 +66,19 @@ NodePtr Parser::number()
 {
 	std::string buf;
 
-	while (token.type() == token_type::digit || (token.type() == token_type::dot && !buf.empty() && std::string { buf.back() } != token.value()))
+	while (token.type() == token_type::digit || token.type() == token_type::dot)
 	{
 		buf += token.value();
 		nextToken();
 	}
 
-	auto number = std::strtold(buf.c_str(), nullptr);
+	std::istringstream str(buf);
+	long double number;
 
-	if (number == 0.0 && buf.find("0") == std::string::npos)
-	{
+	str >> number;
+
+	if (!str || str.rdbuf()->in_avail())
 		throw ParserException(error_code::operand_expected);
-	}
 
 	return std::make_unique<NodeNumber>(number);
 }
@@ -113,10 +124,8 @@ NodePtr Parser::bracket()
 			nextToken();
 			return std::move(node);
 		}
-		else
-		{
-			throw ParserException(error_code::bracket_expected);
-		}
+
+		throw ParserException(error_code::bracket_expected);
 	}
 	else if (token.type() == token_type::letter)
 	{
@@ -126,10 +135,8 @@ NodePtr Parser::bracket()
 		{
 			return function(std::move(ident));
 		}
-		else
-		{
-			return std::move(ident);
-		}
+
+		return std::move(ident);
 	}
 	
 	return std::make_unique<NodeMul>(std::make_unique<NodeNumber>(sign), number());

@@ -5,6 +5,7 @@
 #include "ParserException.h"
 
 #include <iostream>
+#include <sstream>
 
 class Parser
 {
