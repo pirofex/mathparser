@@ -50,16 +50,20 @@ NodeIdent::NodeIdent(const std::string& input)
 
 number NodeIdent::eval() const
 {
-	if (identifier == "pi")
+	std::map<std::string, number> identifiers =
 	{
-		return 3.14159265;
-	}
-	else if (identifier == "e")
-	{
-		return 2.71828183;
-	}
+		{"pi", 3.14159265},
+		{"e", 2.71828183}
+	};
 
-	throw ParserException(error_code::constant_expected);
+	try
+	{
+		return identifiers.at(identifier);
+	}
+	catch (const std::out_of_range&)
+	{
+		throw ParserException(error_code::constant_expected);
+	}
 }
 
 const std::string& NodeIdent::getName() const noexcept
@@ -79,51 +83,27 @@ void NodeFunc::addArgument(NodePtr node)
 
 number NodeFunc::eval() const
 {
-	if (identifier->getName() == "sin")
+	std::map<std::string, std::function<number()>> functions =
 	{
-		if (arguments.size() == 1)
-			return sin(arguments[0]->eval());
-	}
-	else if (identifier->getName() == "cos")
-	{
-		if (arguments.size() == 1)
-			return cos(arguments[0]->eval());
-	}
-	else if (identifier->getName() == "tan")
-	{
-		if (arguments.size() == 1)
-			return tan(arguments[0]->eval());
-	}
-	else if (identifier->getName() == "sqrt")
-	{
-		if (arguments.size() == 1)
-			return sqrt(arguments[0]->eval());
-	}
-	else if (identifier->getName() == "pow")
-	{
-		if (arguments.size() == 2)
-			return pow(arguments[0]->eval(), arguments[1]->eval());
-	}
-	else if (identifier->getName() == "log")
-	{
-		if (arguments.size() == 1)
-			return log(arguments[0]->eval());
-	}
-	else if (identifier->getName() == "ceil")
-	{
-		if (arguments.size() == 1)
-			return ceil(arguments[0]->eval());
-	}
-	else if (identifier->getName() == "floor")
-	{
-		if (arguments.size() == 1)
-			return floor(arguments[0]->eval());
-	}
-	else if (identifier->getName() == "digsum")
-	{
-		if (arguments.size() == 1)
-			return digitsum(arguments[0]->eval());
-	}
+		{"sin",	[this]() { return sin(arguments.at(0)->eval()); }},
+		{"cos",	[this]() { return cos(arguments.at(0)->eval()); }},
+		{"tan",	[this]() { return tan(arguments.at(0)->eval()); }},
+		{"sqrt", [this]() { return sqrt(arguments.at(0)->eval()); }},
+		{"pow",	[this]() { return pow(arguments.at(0)->eval(), arguments.at(1)->eval()); }},
+		{"log",	[this]() { return log(arguments.at(0)->eval()); }},
+		{"ceil", [this]() { return ceil(arguments.at(0)->eval()); }},
+		{"floor", [this]() { return floor(arguments.at(0)->eval()); }},
+		{"digsum", [this]() { return digitsum(arguments.at(0)->eval()); }},
+	};
 
-	throw ParserException(error_code::function_expected);
+	auto name = identifier->getName();
+
+	try {
+		auto func = functions.at(name);
+		return func();
+	}
+	catch (const std::out_of_range&)
+	{
+		throw ParserException(error_code::function_expected);
+	}
 }
