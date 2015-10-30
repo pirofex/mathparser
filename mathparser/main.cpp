@@ -44,7 +44,11 @@ int main()
 	
 	while (std::cout << "# ", std::getline(std::cin, input))
 	{
-		process_command_line(input);
+		if (input.length() && input[0] == '/')
+		{
+			process_command_line(input);
+			continue;
+		}	
 
 		try
 		{
