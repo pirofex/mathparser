@@ -85,20 +85,57 @@ number NodeFunc::eval() const
 {
 	std::map<std::string, std::function<number()>> functions =
 	{
-		{"sin",	[this]() { return sin(arguments.at(0)->eval()); }},
-		{"cos",	[this]() { return cos(arguments.at(0)->eval()); }},
-		{"tan",	[this]() { return tan(arguments.at(0)->eval()); }},
-		{"sqrt", [this]() { return sqrt(arguments.at(0)->eval()); }},
-		{"pow",	[this]() { return pow(arguments.at(0)->eval(), arguments.at(1)->eval()); }},
-		{"log",	[this]() { return log(arguments.at(0)->eval()); }},
-		{"ceil", [this]() { return ceil(arguments.at(0)->eval()); }},
-		{"floor", [this]() { return floor(arguments.at(0)->eval()); }},
-		{"digsum", [this]() { return digitsum(arguments.at(0)->eval()); }},
+		{"sin",	
+			[this]() { 
+				return sin(arguments.at(0)->eval()); 
+			}
+		}, 
+		{"cos",	
+			[this]() { 
+				return cos(arguments.at(0)->eval()); 
+			}
+		}, 
+		{"tan",	
+			[this]() { 
+				return tan(arguments.at(0)->eval()); 
+			}
+		}, 
+		{"sqrt", 
+			[this]() { 
+				return sqrt(arguments.at(0)->eval()); 
+			}
+		}, 
+		{"pow",	
+			[this]() { 
+				return pow(arguments.at(0)->eval(), arguments.at(1)->eval()); 
+			}
+		}, 
+		{"log",	
+			[this]() { 
+				return log(arguments.at(0)->eval()); 
+			}
+		}, 
+		{"ceil", 
+			[this]() { 
+				return ceil(arguments.at(0)->eval()); 
+			}
+		},
+		{"floor", 
+			[this]() {
+				return floor(arguments.at(0)->eval()); 
+			}
+		}, 
+		{"digsum", 
+			[this]() { 
+				return digitsum(arguments.at(0)->eval()); 
+			}
+		}
 	};
 
 	auto name = identifier->getName();
 
-	try {
+	try 
+	{
 		auto func = functions.at(name);
 		return func();
 	}
